@@ -19,6 +19,8 @@ public_users.get('/', async (req, res) => {
     //return res.status(300).json({message: "Yet to be implemented"});
 });
 
+//async function for getting list of Books
+
 async function getListOfBooks(filePath) {
   try {
     //Read the file asynchronously 
@@ -60,6 +62,19 @@ public_users.get('/isbn/:isbn',async(req, res) => {
     // return res.status(300).json({message: "Yet to be implemented"});
 
  });
+
+ async function getBooksByISBN(isbn) {
+  try {
+    const books = await books.getBooksByISBN(isbn);
+
+    console.log('Books based on ISBN:',books);
+    return books;
+  }catch (error) {
+    // Handle errors
+    console.error('Error fatching books by ISBN:', error.message);
+       throw error;
+  }
+ }
   
 // Get book details based on author
 public_users.get('/author/:author',function (req, res) {
@@ -75,6 +90,19 @@ else {
  }
 });
 
+
+async function getBooksByAuthor(author) {
+    try{
+       const books = await database.getBooksByAuthor(author);
+
+       console.log(`Books by ${author}:`,books);
+        
+       return books;
+    }catch (error) {
+         console.error('Error fetching books by author: ', error.message);
+         throw error;
+    }
+}
 // Get all books based on title
 public_users.get('/title/:title',function (req, res) {
   //Write your code here
@@ -88,6 +116,20 @@ else {
   res.status(404).json({error:'Book not found in the database'});
  }
 });
+
+
+async function getBooksByTitle(title)
+{
+  
+  try{
+    const bookslist = books.filter(book => book.title.toLowerCase().includes(title.toLowerCase()));
+
+    console.error('Error fetching books by title:',error.message);
+       throw error;
+  }catch (error) {
+    
+  }
+}
 
 
 //  Get book review
